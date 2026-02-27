@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VaultPay API Documentation — v2.4</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0B0E11;
+    --bg-secondary: #131820;
+    --bg-tertiary: #1A2030;
+    --bg-code: #0D1117;
+    --text-primary: #E6EDF3;
+    --text-secondary: #8B949E;
+    --text-muted: #656D76;
+    --accent-green: #3FB950;
+    --accent-blue: #58A6FF;
+    --accent-purple: #BC8CFF;
+    --accent-orange: #F0883E;
+    --accent-red: #F85149;
+    --accent-yellow: #D29922;
+    --accent-teal: #39D2C0;
+    --border: #21262D;
+    --border-light: #30363D;
+    --method-get: #3FB950;
+    --method-post: #58A6FF;
+    --method-put: #D29922;
+    --method-delete: #F85149;
+    --method-patch: #BC8CFF;
+    --sidebar-width: 280px;
+    --header-height: 56px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background: rgba(11, 14, 17, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--bg-primary);
+  }
+
+  .logo-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .logo-version {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-teal);
+    background: rgba(57, 210, 192, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(57, 210, 192, 0.2);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 220px;
+  }
+
+  .header-search:hover { border-color: var(--border-light); }
+
+  .header-search kbd {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+    margin-left: auto;
+  }
+
+  .env-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .env-badge.live {
+    color: var(--accent-green);
+    background: rgba(63, 185, 80, 0.1);
+    border: 1px solid rgba(63, 185, 80, 0.25);
+  }
+  .env-badge.sandbox {
+    color: var(--accent-orange);
+    background: rgba(240, 136, 62, 0.1);
+    border: 1px solid rgba(240, 136, 62, 0.25);
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-light) transparent;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+
+  .nav-section {
+    margin-bottom: 8px;
+  }
+
+  .nav-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    padding: 16px 20px 8px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .nav-link.active {
+    color: var(--accent-teal);
+    background: rgba(57, 210, 192, 0.05);
+    border-left-color: var(--accent-teal);
+  }
+
+  .nav-method {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 3px;
+    min-width: 36px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .nav-method.get { color: var(--method-get); background: rgba(63,185,80,0.12); }
+  .nav-method.post { color: var(--method-post); background: rgba(88,166,255,0.12); }
+  .nav-method.put { color: var(--method-put); background: rgba(210,153,34,0.12); }
+  .nav-method.delete { color: var(--method-delete); background: rgba(248,81,73,0.12); }
+  .nav-method.patch { color: var(--method-patch); background: rgba(188,140,255,0.12); }
+
+  .nav-badge {
+    margin-left: auto;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .nav-badge.new { color: var(--accent-green); background: rgba(63,185,80,0.15); }
+  .nav-badge.beta { color: var(--accent-purple); background: rgba(188,140,255,0.15); }
+  .nav-badge.deprecated { color: var(--accent-red); background: rgba(248,81,73,0.12); }
+
+  /* ─── MAIN CONTENT ─── */
+  .main {
+    margin-left: var(--sidebar-width);
+    margin-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .content-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 48px;
+  }
+
+  /* ─── SECTION STYLING ─── */
+  .doc-section {
+    margin-bottom: 64px;
+    scroll-margin-top: calc(var(--header-height) + 24px);
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 28px 0 12px;
+    color: var(--text-primary);
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 14.5px;
+    margin-bottom: 16px;
+    max-width: 700px;
+  }
+
+  /* ─── INTRO HERO ─── */
+  .intro-hero {
+    background: linear-gradient(135deg, rgba(57,210,192,0.06) 0%, rgba(88,166,255,0.04) 100%);
+    border: 1px solid rgba(57,210,192,0.12);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(57,210,192,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .intro-hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .intro-hero p {
+    font-size: 16px;
+    max-width: 600px;
+    color: var(--text-secondary);
+  }
+
+  .base-url-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+
+  .base-url-display .protocol { color: var(--text-muted); }
+  .base-url-display .domain { color: var(--accent-teal); }
+  .base-url-display .path { color: var(--text-secondary); }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover {
+    border-color: var(--accent-teal);
+    color: var(--accent-teal);
+  }
+
+  /* ─── ENDPOINT CARDS ─── */
+  .endpoint-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .endpoint-card:hover { border-color: var(--border-light); }
+
+  .endpoint-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .method-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    min-width: 56px;
+    text-align: center;
+  }
+  .method-badge.get { color: var(--method-get); background: rgba(63,185,80,0.12); border: 1px solid rgba(63,185,80,0.2); }
+  .method-badge.post { color: var(--method-post); background: rgba(88,166,255,0.12); border: 1px solid rgba(88,166,255,0.2); }
+  .method-badge.put { color: var(--method-put); background: rgba(210,153,34,0.12); border: 1px solid rgba(210,153,34,0.2); }
+  .method-badge.delete { color: var(--method-delete); background: rgba(248,81,73,0.12); border: 1px solid rgba(248,81,73,0.2); }
+  .method-badge.patch { color: var(--method-patch); background: rgba(188,140,255,0.12); border: 1px solid rgba(188,140,255,0.2); }
+
+  .endpoint-path {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--text-primary);
+  }
+  .endpoint-path .param { color: var(--accent-orange); }
+
+  .endpoint-desc {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .endpoint-expand {
+    color: var(--text-muted);
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+  .endpoint-card.open .endpoint-expand { transform: rotate(180deg); }
+
+  .endpoint-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .endpoint-card.open .endpoint-body { display: block; }
+
+  /* ─── CODE BLOCKS ─── */
+  .code-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .code-tabs {
+    display: flex;
+    gap: 0;
+  }
+
+  .code-tab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  .code-tab.active {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+  .code-tab:hover:not(.active) { color: var(--text-secondary); }
+
+  pre {
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-light) transparent;
+  }
+
+  .hl-keyword { color: var(--accent-purple); }
+  .hl-string { color: var(--accent-green); }
+  .hl-number { color: var(--accent-orange); }
+  .hl-comment { color: var(--text-muted); font-style: italic; }
+  .hl-key { color: var(--accent-blue); }
+  .hl-url { color: var(--accent-teal); }
+  .hl-method { color: var(--accent-orange); }
+  .hl-bool { color: var(--accent-orange); }
+
+  /* ─── PARAM TABLE ─── */
+  .param-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13.5px;
+  }
+
+  .param-table th {
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .param-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .param-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--accent-blue);
+  }
+
+  .param-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .param-required {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .param-required.yes { color: var(--accent-red); background: rgba(248,81,73,0.1); }
+  .param-required.no { color: var(--text-muted); background: var(--bg-tertiary); }
+
+  .param-desc { color: var(--text-secondary); font-size: 13px; }
+
+  /* ─── STATUS CODES ─── */
+  .status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 12px 0 20px;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    font-size: 13px;
+  }
+
+  .status-code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 12px;
+    min-width: 32px;
+  }
+  .status-code.s2xx { color: var(--accent-green); }
+  .status-code.s4xx { color: var(--accent-orange); }
+  .status-code.s5xx { color: var(--accent-red); }
+
+  .status-desc { color: var(--text-secondary); }
+
+  /* ─── CALLOUT BOXES ─── */
+  .callout {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .callout.info {
+    background: rgba(88,166,255,0.06);
+    border: 1px solid rgba(88,166,255,0.15);
+    color: var(--accent-blue);
+  }
+  .callout.warning {
+    background: rgba(210,153,34,0.06);
+    border: 1px solid rgba(210,153,34,0.15);
+    color: var(--accent-yellow);
+  }
+  .callout.danger {
+    background: rgba(248,81,73,0.06);
+    border: 1px solid rgba(248,81,73,0.15);
+    color: var(--accent-red);
+  }
+  .callout.success {
+    background: rgba(63,185,80,0.06);
+    border: 1px solid rgba(63,185,80,0.15);
+    color: var(--accent-green);
+  }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout p { color: inherit; margin: 0; max-width: none; }
+
+  /* ─── AUTH FLOW DIAGRAM ─── */
+  .auth-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+    padding: 24px;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+
+  .auth-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 130px;
+  }
+
+  .auth-step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .auth-step-icon.client { background: rgba(88,166,255,0.15); border: 1px solid rgba(88,166,255,0.25); }
+  .auth-step-icon.server { background: rgba(57,210,192,0.15); border: 1px solid rgba(57,210,192,0.25); }
+  .auth-step-icon.token { background: rgba(188,140,255,0.15); border: 1px solid rgba(188,140,255,0.25); }
+  .auth-step-icon.api { background: rgba(63,185,80,0.15); border: 1px solid rgba(63,185,80,0.25); }
+
+  .auth-step-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .auth-arrow {
+    font-size: 20px;
+    color: var(--text-muted);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  /* ─── RATE LIMIT VISUAL ─── */
+  .rate-limit-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .tier-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tier-card:hover {
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+  }
+  .tier-card.recommended {
+    border-color: var(--accent-teal);
+    position: relative;
+  }
+  .tier-card.recommended::after {
+    content: 'POPULAR';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 10px;
+    background: var(--accent-teal);
+    color: var(--bg-primary);
+    border-radius: 4px;
+  }
+
+  .tier-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .tier-limit {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent-teal);
+    margin: 12px 0 4px;
+  }
+
+  .tier-unit {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .tier-detail {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ─── WEBHOOK EVENTS TABLE ─── */
+  .webhook-event {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .webhook-event:hover { background: rgba(255,255,255,0.02); }
+
+  .webhook-event-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--accent-purple);
+    min-width: 220px;
+  }
+
+  .webhook-event-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ─── CHANGELOG ─── */
+  .changelog-entry {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .changelog-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 100px;
+    padding-top: 2px;
+  }
+
+  .changelog-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+  .changelog-tag.added { color: var(--accent-green); background: rgba(63,185,80,0.12); }
+  .changelog-tag.changed { color: var(--accent-blue); background: rgba(88,166,255,0.12); }
+  .changelog-tag.fixed { color: var(--accent-orange); background: rgba(240,136,62,0.12); }
+  .changelog-tag.deprecated { color: var(--accent-red); background: rgba(248,81,73,0.12); }
+
+  .changelog-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+  }
+
+  .changelog-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ─── SDK CARDS ─── */
+  .sdk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .sdk-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sdk-card:hover {
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+  }
+
+  .sdk-lang {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .sdk-install {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-teal);
+    background: var(--bg-code);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .sdk-version {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ─── ERROR FORMAT ─── */
+  .error-format {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+
+  .error-format-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+  }
+
+  .error-field {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--accent-blue);
+    min-width: 100px;
+  }
+
+  .error-value {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ─── FOOTER ─── */
+  .doc-footer {
+    margin-top: 60px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .doc-footer-text {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .doc-footer-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .doc-footer-links a {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .doc-footer-links a:hover { color: var(--accent-teal); }
+
+  /* Inline code */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--accent-teal);
+  }
+
+  a { color: var(--accent-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Scrollbar for main */
+  .main::-webkit-scrollbar { width: 6px; }
+  .main::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .content-wrapper { padding: 24px; }
+    .rate-limit-tiers { grid-template-columns: 1fr; }
+    .header-search { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">VP</div>
+    <span class="logo-text">VaultPay</span>
+    <span class="logo-version">v2.4</span>
+  </a>
+  <div class="header-actions">
+    <div class="header-search">
+      <span>⌕</span> Search docs...
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="env-badge live" id="envToggle" onclick="toggleEnv()">● Live</span>
+  </div>
+</header>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<nav class="sidebar">
+  <div class="nav-section">
+    <div class="nav-section-title">Getting Started</div>
+    <a class="nav-link active" onclick="scrollToSection('overview')">Overview</a>
+    <a class="nav-link" onclick="scrollToSection('authentication')">Authentication</a>
+    <a class="nav-link" onclick="scrollToSection('sdks')">SDKs &amp; Libraries</a>
+    <a class="nav-link" onclick="scrollToSection('errors')">Error Handling</a>
+    <a class="nav-link" onclick="scrollToSection('rate-limits')">Rate Limits</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Payments</div>
+    <a class="nav-link" onclick="scrollToSection('ep-create-payment')">
+      <span class="nav-method post">POST</span> Create Payment
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-get-payment')">
+      <span class="nav-method get">GET</span> Retrieve Payment
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-list-payments')">
+      <span class="nav-method get">GET</span> List Payments
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-capture-payment')">
+      <span class="nav-method post">POST</span> Capture Payment
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-cancel-payment')">
+      <span class="nav-method post">POST</span> Cancel Payment
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Refunds</div>
+    <a class="nav-link" onclick="scrollToSection('ep-create-refund')">
+      <span class="nav-method post">POST</span> Create Refund
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-get-refund')">
+      <span class="nav-method get">GET</span> Retrieve Refund
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Customers</div>
+    <a class="nav-link" onclick="scrollToSection('ep-create-customer')">
+      <span class="nav-method post">POST</span> Create Customer
+      <span class="nav-badge new">NEW</span>
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-update-customer')">
+      <span class="nav-method patch">PATCH</span> Update Customer
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-delete-customer')">
+      <span class="nav-method delete">DEL</span> Delete Customer
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Payouts</div>
+    <a class="nav-link" onclick="scrollToSection('ep-create-payout')">
+      <span class="nav-method post">POST</span> Create Payout
+      <span class="nav-badge beta">BETA</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Events</div>
+    <a class="nav-link" onclick="scrollToSection('webhooks')">Webhooks</a>
+    <a class="nav-link" onclick="scrollToSection('webhook-events')">Event Types</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Resources</div>
+    <a class="nav-link" onclick="scrollToSection('idempotency')">Idempotency</a>
+    <a class="nav-link" onclick="scrollToSection('pagination')">Pagination</a>
+    <a class="nav-link" onclick="scrollToSection('changelog')">Changelog</a>
+  </div>
+</nav>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<main class="main">
+<div class="content-wrapper">
+
+  <!-- INTRO HERO -->
+  <div class="intro-hero" id="overview">
+    <h1>VaultPay API Reference</h1>
+    <p>Accept payments, manage customers, and automate payouts with a single, unified API. Built for developers who need reliability at scale.</p>
+    <div class="base-url-display">
+      <span class="protocol">https://</span><span class="domain">api.vaultpay.com</span><span class="path">/v2</span>
+      <button class="copy-btn" onclick="copyText('https://api.vaultpay.com/v2')">Copy</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ AUTHENTICATION ═══════════ -->
+  <section class="doc-section" id="authentication">
+    <div class="section-header">
+      <h2>Authentication</h2>
+    </div>
+    <p>VaultPay uses API keys to authenticate requests. Include your secret key in the <code>Authorization</code> header as a Bearer token. Keep your secret keys secure — never expose them in client-side code or public repositories.</p>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <p>Use keys prefixed with <code>sk_test_</code> for sandbox and <code>sk_live_</code> for production. Test mode transactions never hit real payment networks.</p>
+    </div>
+
+    <div class="auth-flow">
+      <div class="auth-step">
+        <div class="auth-step-icon client">🖥</div>
+        <div class="auth-step-label">Your Server</div>
+      </div>
+      <div class="auth-arrow">→</div>
+      <div class="auth-step">
+        <div class="auth-step-icon token">🔑</div>
+        <div class="auth-step-label">API Key in Header</div>
+      </div>
+      <div class="auth-arrow">→</div>
+      <div class="auth-step">
+        <div class="auth-step-icon server">🛡</div>
+        <div class="auth-step-label">VaultPay Verifies</div>
+      </div>
+      <div class="auth-arrow">→</div>
+      <div class="auth-step">
+        <div class="auth-step-icon api">✓</div>
+        <div class="auth-step-label">Response</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs">
+          <span class="code-tab active">cURL</span>
+          <span class="code-tab">Python</span>
+          <span class="code-tab">Node.js</span>
+        </div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre><span class="hl-method">curl</span> <span class="hl-url">https://api.vaultpay.com/v2/payments</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Authorization: Bearer sk_live_YOUR_SECRET_KEY"</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Content-Type: application/json"</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"VP-Version: 2024-11-15"</span></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════ SDKs ═══════════ -->
+  <section class="doc-section" id="sdks">
+    <div class="section-header">
+      <h2>SDKs &amp; Libraries</h2>
+    </div>
+    <p>Official client libraries for the most popular languages. Each SDK handles authentication, retries, and serialization automatically.</p>
+
+    <div class="sdk-grid">
+      <div class="sdk-card">
+        <span class="sdk-lang">Python</span>
+        <div class="sdk-install">pip install vaultpay</div>
+        <span class="sdk-version">v3.8.1 · Updated 3 days ago</span>
+      </div>
+      <div class="sdk-card">
+        <span class="sdk-lang">Node.js</span>
+        <div class="sdk-install">npm i @vaultpay/node</div>
+        <span class="sdk-version">v4.2.0 · Updated 1 week ago</span>
+      </div>
+      <div class="sdk-card">
+        <span class="sdk-lang">Go</span>
+        <div class="sdk-install">go get vaultpay.com/go</div>
+        <span class="sdk-version">v2.1.3 · Updated 2 weeks ago</span>
+      </div>
+      <div class="sdk-card">
+        <span class="sdk-lang">Ruby</span>
+        <div class="sdk-install">gem install vaultpay</div>
+        <span class="sdk-version">v5.0.0 · Updated 5 days ago</span>
+      </div>
+      <div class="sdk-card">
+        <span class="sdk-lang">Java</span>
+        <div class="sdk-install">com.vaultpay:sdk:6.3.2</div>
+        <span class="sdk-version">v6.3.2 · Updated 2 weeks ago</span>
+      </div>
+      <div class="sdk-card">
+        <span class="sdk-lang">.NET</span>
+        <div class="sdk-install">dotnet add VaultPay.Net</div>
+        <span class="sdk-version">v3.0.1 · Updated 4 days ago</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ERRORS ═══════════ -->
+  <section class="doc-section" id="errors">
+    <div class="section-header">
+      <h2>Error Handling</h2>
+    </div>
+    <p>VaultPay returns conventional HTTP status codes and a structured JSON error body. Errors include a machine-readable <code>code</code>, a human-readable <code>message</code>, and an optional <code>param</code> field pointing to the invalid input.</p>
+
+    <div class="error-format">
+      <div class="error-format-row">
+        <span class="error-field">type</span>
+        <span class="error-value">The error category: <code>api_error</code>, <code>card_error</code>, <code>validation_error</code>, <code>authentication_error</code></span>
+      </div>
+      <div class="error-format-row">
+        <span class="error-field">code</span>
+        <span class="error-value">Machine-readable error code, e.g. <code>card_declined</code>, <code>insufficient_funds</code></span>
+      </div>
+      <div class="error-format-row">
+        <span class="error-field">message</span>
+        <span class="error-value">A human-friendly explanation suitable for displaying to end users</span>
+      </div>
+      <div class="error-format-row">
+        <span class="error-field">param</span>
+        <span class="error-value">The request parameter that caused the error (if applicable)</span>
+      </div>
+      <div class="error-format-row">
+        <span class="error-field">request_id</span>
+        <span class="error-value">A unique identifier for the request — include this in support tickets</span>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs"><span class="code-tab active">Error Response</span></div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre>{
+  <span class="hl-key">"error"</span>: {
+    <span class="hl-key">"type"</span>: <span class="hl-string">"card_error"</span>,
+    <span class="hl-key">"code"</span>: <span class="hl-string">"card_declined"</span>,
+    <span class="hl-key">"message"</span>: <span class="hl-string">"The card was declined. Please try a different payment method."</span>,
+    <span class="hl-key">"param"</span>: <span class="hl-string">"payment_method"</span>,
+    <span class="hl-key">"request_id"</span>: <span class="hl-string">"req_7xK9mRtL3vN2"</span>
+  }
+}</pre>
+    </div>
+
+    <h3>HTTP Status Codes</h3>
+    <div class="status-list">
+      <div class="status-item"><span class="status-code s2xx">200</span><span class="status-desc">OK — Request succeeded</span></div>
+      <div class="status-item"><span class="status-code s2xx">201</span><span class="status-desc">Created — Resource successfully created</span></div>
+      <div class="status-item"><span class="status-code s4xx">400</span><span class="status-desc">Bad Request — Invalid parameters or malformed JSON</span></div>
+      <div class="status-item"><span class="status-code s4xx">401</span><span class="status-desc">Unauthorized — Missing or invalid API key</span></div>
+      <div class="status-item"><span class="status-code s4xx">403</span><span class="status-desc">Forbidden — Key lacks required permissions</span></div>
+      <div class="status-item"><span class="status-code s4xx">404</span><span class="status-desc">Not Found — Requested resource does not exist</span></div>
+      <div class="status-item"><span class="status-code s4xx">409</span><span class="status-desc">Conflict — Idempotency key reused with different parameters</span></div>
+      <div class="status-item"><span class="status-code s4xx">422</span><span class="status-desc">Unprocessable — Parameters valid but request cannot be completed</span></div>
+      <div class="status-item"><span class="status-code s4xx">429</span><span class="status-desc">Too Many Requests — Rate limit exceeded</span></div>
+      <div class="status-item"><span class="status-code s5xx">500</span><span class="status-desc">Server Error — Something went wrong on our end</span></div>
+      <div class="status-item"><span class="status-code s5xx">503</span><span class="status-desc">Service Unavailable — Temporary outage, retry with backoff</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ RATE LIMITS ═══════════ -->
+  <section class="doc-section" id="rate-limits">
+    <div class="section-header">
+      <h2>Rate Limits</h2>
+    </div>
+    <p>Rate limits are enforced per API key. When you exceed your limit, subsequent requests return <code>429 Too Many Requests</code>. Use the <code>Retry-After</code> header to determine when to retry.</p>
+
+    <div class="rate-limit-tiers">
+      <div class="tier-card">
+        <div class="tier-name">Starter</div>
+        <div class="tier-limit">100</div>
+        <div class="tier-unit">requests / second</div>
+        <div class="tier-detail">Burst up to 150 req/s<br>10,000 req/day cap</div>
+      </div>
+      <div class="tier-card recommended">
+        <div class="tier-name">Growth</div>
+        <div class="tier-limit">500</div>
+        <div class="tier-unit">requests / second</div>
+        <div class="tier-detail">Burst up to 750 req/s<br>Unlimited daily</div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-limit">2,500</div>
+        <div class="tier-unit">requests / second</div>
+        <div class="tier-detail">Custom burst limits<br>Dedicated infrastructure</div>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠</span>
+      <p>Rate limit headers are included in every response: <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. Monitor these proactively to avoid interruptions.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ CREATE PAYMENT ═══════════ -->
+  <section class="doc-section" id="ep-create-payment">
+    <div class="section-header">
+      <h2>Payments</h2>
+    </div>
+
+    <div class="endpoint-card open">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/payments</span>
+        <span class="endpoint-desc">Create a new payment intent</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Creates a PaymentIntent object representing your intent to collect payment from a customer. After creation, the payment can be confirmed and captured in one step, or authorized first and captured later.</p>
+
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead>
+            <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">amount</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Amount in the smallest currency unit (e.g., cents for USD). Must be ≥ 50.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">currency</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Three-letter <a href="#">ISO 4217</a> currency code. Supported: <code>usd</code>, <code>eur</code>, <code>gbp</code>, <code>jpy</code>, <code>inr</code>, + 30 more.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">payment_method</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">ID of the payment method to charge, e.g. <code>pm_1Nq...</code></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">customer</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">ID of an existing Customer object to associate this payment with.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">capture_method</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc"><code>automatic</code> (default) or <code>manual</code>. Manual requires a separate capture call.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">description</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Arbitrary description for internal tracking. Max 500 characters.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">metadata</span></td>
+              <td><span class="param-type">object</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Up to 20 key-value pairs for storing structured data. Keys max 40 chars, values max 500 chars.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">idempotency_key</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Unique key to prevent duplicate charges. See <a href="#idempotency">Idempotency</a>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Request Example</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs">
+              <span class="code-tab active">cURL</span>
+              <span class="code-tab">Python</span>
+              <span class="code-tab">Node.js</span>
+            </div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><span class="hl-method">curl</span> <span class="hl-keyword">-X POST</span> <span class="hl-url">https://api.vaultpay.com/v2/payments</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Authorization: Bearer sk_live_YOUR_SECRET_KEY"</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Content-Type: application/json"</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Idempotency-Key: order_8x7zK3mN"</span> \
+  <span class="hl-keyword">-d</span> <span class="hl-string">'{
+    "amount": 2500,
+    "currency": "usd",
+    "payment_method": "pm_1NqG2LC4a7DkEgks89tF6xYb",
+    "customer": "cus_Rk4x7LmN2vPq",
+    "capture_method": "automatic",
+    "description": "Order #1042 — Pro Plan Subscription",
+    "metadata": {
+      "order_id": "1042",
+      "product": "pro_plan"
+    }
+  }'</span></pre>
+        </div>
+
+        <h3>Response</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"id"</span>: <span class="hl-string">"pay_3Mq8R7vLkN2xT9"</span>,
+  <span class="hl-key">"object"</span>: <span class="hl-string">"payment"</span>,
+  <span class="hl-key">"amount"</span>: <span class="hl-number">2500</span>,
+  <span class="hl-key">"amount_captured"</span>: <span class="hl-number">2500</span>,
+  <span class="hl-key">"amount_refunded"</span>: <span class="hl-number">0</span>,
+  <span class="hl-key">"currency"</span>: <span class="hl-string">"usd"</span>,
+  <span class="hl-key">"status"</span>: <span class="hl-string">"succeeded"</span>,
+  <span class="hl-key">"payment_method"</span>: <span class="hl-string">"pm_1NqG2LC4a7DkEgks89tF6xYb"</span>,
+  <span class="hl-key">"customer"</span>: <span class="hl-string">"cus_Rk4x7LmN2vPq"</span>,
+  <span class="hl-key">"description"</span>: <span class="hl-string">"Order #1042 — Pro Plan Subscription"</span>,
+  <span class="hl-key">"metadata"</span>: {
+    <span class="hl-key">"order_id"</span>: <span class="hl-string">"1042"</span>,
+    <span class="hl-key">"product"</span>: <span class="hl-string">"pro_plan"</span>
+  },
+  <span class="hl-key">"capture_method"</span>: <span class="hl-string">"automatic"</span>,
+  <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-02-26T14:32:07Z"</span>,
+  <span class="hl-key">"livemode"</span>: <span class="hl-bool">true</span>
+}</pre>
+        </div>
+
+        <h3>Response Codes</h3>
+        <div class="status-list">
+          <div class="status-item"><span class="status-code s2xx">201</span><span class="status-desc">Payment created and processed successfully</span></div>
+          <div class="status-item"><span class="status-code s4xx">400</span><span class="status-desc">Invalid parameters (amount too low, unsupported currency)</span></div>
+          <div class="status-item"><span class="status-code s4xx">402</span><span class="status-desc">Card declined or payment method failed</span></div>
+          <div class="status-item"><span class="status-code s4xx">409</span><span class="status-desc">Idempotency key conflict</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ RETRIEVE PAYMENT ═══════════ -->
+  <section class="doc-section" id="ep-get-payment">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/payments/<span class="param">{payment_id}</span></span>
+        <span class="endpoint-desc">Retrieve a payment by ID</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Retrieves the details of an existing payment. Supply the unique payment ID returned from a previous create or list request.</p>
+
+        <h3>Path Parameters</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">payment_id</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">The unique identifier of the payment, e.g. <code>pay_3Mq8R7vLkN2xT9</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">cURL</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><span class="hl-method">curl</span> <span class="hl-url">https://api.vaultpay.com/v2/payments/pay_3Mq8R7vLkN2xT9</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Authorization: Bearer sk_live_YOUR_SECRET_KEY"</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ LIST PAYMENTS ═══════════ -->
+  <section class="doc-section" id="ep-list-payments">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/payments</span>
+        <span class="endpoint-desc">List all payments</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Returns a paginated list of payments you've previously created. Results are sorted by creation date, with the most recent first.</p>
+
+        <h3>Query Parameters</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">limit</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Number of results per page (1–100). Default: 20.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">cursor</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Pagination cursor from a previous response's <code>next_cursor</code> field.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">status</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Filter by status: <code>succeeded</code>, <code>pending</code>, <code>failed</code>, <code>canceled</code>.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">created[gte]</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Return payments created on or after this ISO 8601 timestamp.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">created[lte]</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Return payments created on or before this ISO 8601 timestamp.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">customer</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Filter payments by customer ID.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Response</h3>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"object"</span>: <span class="hl-string">"list"</span>,
+  <span class="hl-key">"data"</span>: [
+    {
+      <span class="hl-key">"id"</span>: <span class="hl-string">"pay_3Mq8R7vLkN2xT9"</span>,
+      <span class="hl-key">"amount"</span>: <span class="hl-number">2500</span>,
+      <span class="hl-key">"currency"</span>: <span class="hl-string">"usd"</span>,
+      <span class="hl-key">"status"</span>: <span class="hl-string">"succeeded"</span>,
+      <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-02-26T14:32:07Z"</span>
+    },
+    <span class="hl-comment">// ... more payments</span>
+  ],
+  <span class="hl-key">"has_more"</span>: <span class="hl-bool">true</span>,
+  <span class="hl-key">"next_cursor"</span>: <span class="hl-string">"cur_xK9mRt3vN2qL"</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CAPTURE PAYMENT ═══════════ -->
+  <section class="doc-section" id="ep-capture-payment">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/payments/<span class="param">{payment_id}</span>/capture</span>
+        <span class="endpoint-desc">Capture an authorized payment</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Captures a payment that was previously created with <code>capture_method: "manual"</code>. You can capture the full amount or a partial amount. Uncaptured payments expire after 7 days.</p>
+
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">amount</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Amount to capture (must be ≤ authorized amount). Defaults to the full authorized amount.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ</span>
+          <p>Partial captures release the remaining authorized amount back to the customer's card within 5–10 business days, depending on the issuing bank.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CANCEL PAYMENT ═══════════ -->
+  <section class="doc-section" id="ep-cancel-payment">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/payments/<span class="param">{payment_id}</span>/cancel</span>
+        <span class="endpoint-desc">Cancel an uncaptured payment</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Cancels a payment that has not yet been captured. Once canceled, no further actions can be taken on the payment. For already-captured payments, use the <a href="#ep-create-refund">Refunds API</a> instead.</p>
+
+        <div class="callout danger">
+          <span class="callout-icon">✕</span>
+          <p>This action is irreversible. Canceled payments cannot be re-authorized — you'll need to create a new payment intent.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ REFUNDS ═══════════ -->
+  <section class="doc-section" id="ep-create-refund">
+    <div class="section-header">
+      <h2>Refunds</h2>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/refunds</span>
+        <span class="endpoint-desc">Create a refund</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Creates a refund for a previously captured payment. You can refund the full amount or a partial amount. Multiple partial refunds can be issued until the full captured amount has been returned.</p>
+
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">payment_id</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">The ID of the payment to refund.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">amount</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Amount to refund in smallest currency unit. Defaults to full captured amount.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">reason</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Reason for refund: <code>requested_by_customer</code>, <code>duplicate</code>, <code>fraudulent</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">Response</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"id"</span>: <span class="hl-string">"ref_9xT2kLm4vR7n"</span>,
+  <span class="hl-key">"object"</span>: <span class="hl-string">"refund"</span>,
+  <span class="hl-key">"amount"</span>: <span class="hl-number">2500</span>,
+  <span class="hl-key">"currency"</span>: <span class="hl-string">"usd"</span>,
+  <span class="hl-key">"payment_id"</span>: <span class="hl-string">"pay_3Mq8R7vLkN2xT9"</span>,
+  <span class="hl-key">"status"</span>: <span class="hl-string">"succeeded"</span>,
+  <span class="hl-key">"reason"</span>: <span class="hl-string">"requested_by_customer"</span>,
+  <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-02-26T16:45:22Z"</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-get-refund">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/refunds/<span class="param">{refund_id}</span></span>
+        <span class="endpoint-desc">Retrieve a refund</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Retrieves the details of an existing refund. Supply the unique refund ID from a previous create or webhook event.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CUSTOMERS ═══════════ -->
+  <section class="doc-section" id="ep-create-customer">
+    <div class="section-header">
+      <h2>Customers</h2>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/customers</span>
+        <span class="endpoint-desc">Create a customer</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Creates a new Customer object. Customers let you store payment methods for recurring charges and track payment history across sessions.</p>
+
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">email</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Customer's email address. Must be unique across your account.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">name</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Customer's full name.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">phone</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Customer's phone number in E.164 format.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">address</span></td>
+              <td><span class="param-type">object</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Structured address with fields: <code>line1</code>, <code>line2</code>, <code>city</code>, <code>state</code>, <code>postal_code</code>, <code>country</code>.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">metadata</span></td>
+              <td><span class="param-type">object</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Up to 20 key-value pairs of custom data.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">201 Created</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"id"</span>: <span class="hl-string">"cus_Rk4x7LmN2vPq"</span>,
+  <span class="hl-key">"object"</span>: <span class="hl-string">"customer"</span>,
+  <span class="hl-key">"email"</span>: <span class="hl-string">"ada.lovelace@example.com"</span>,
+  <span class="hl-key">"name"</span>: <span class="hl-string">"Ada Lovelace"</span>,
+  <span class="hl-key">"phone"</span>: <span class="hl-string">"+14155550198"</span>,
+  <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-02-26T09:15:33Z"</span>,
+  <span class="hl-key">"livemode"</span>: <span class="hl-bool">true</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-update-customer">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge patch">PATCH</span>
+        <span class="endpoint-path">/v2/customers/<span class="param">{customer_id}</span></span>
+        <span class="endpoint-desc">Update a customer</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Updates an existing customer's properties. Only the fields you pass will be updated — omitted fields are left unchanged.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-delete-customer">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge delete">DELETE</span>
+        <span class="endpoint-path">/v2/customers/<span class="param">{customer_id}</span></span>
+        <span class="endpoint-desc">Delete a customer</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Permanently deletes a customer and detaches all associated payment methods. Active subscriptions must be canceled first. This operation is irreversible.</p>
+
+        <div class="callout danger">
+          <span class="callout-icon">✕</span>
+          <p>Deleting a customer removes all stored payment methods and cannot be undone. Historical payment records are preserved for compliance purposes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PAYOUTS ═══════════ -->
+  <section class="doc-section" id="ep-create-payout">
+    <div class="section-header">
+      <h2>Payouts <span class="nav-badge beta" style="font-size:11px; vertical-align:middle;">BETA</span></h2>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/payouts</span>
+        <span class="endpoint-desc">Create a payout</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Initiates a payout to a connected bank account. Payouts are processed in batches daily at 00:00 UTC. Standard payouts arrive in 2–3 business days; instant payouts (where available) arrive within 30 minutes.</p>
+
+        <div class="callout warning">
+          <span class="callout-icon">⚠</span>
+          <p>The Payouts API is currently in beta. Endpoints and request formats may change. Enable beta access in your <a href="#">Dashboard → Developer → Beta Features</a>.</p>
+        </div>
+
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">amount</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Amount to pay out in smallest currency unit.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">currency</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Three-letter ISO 4217 currency code. Must match the connected bank account currency.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">destination</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">ID of a verified bank account, e.g. <code>ba_4xLm9kRt2vNq</code></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">method</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc"><code>standard</code> (default) or <code>instant</code>. Instant payouts incur an additional 1.5% fee.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WEBHOOKS ═══════════ -->
+  <section class="doc-section" id="webhooks">
+    <div class="section-header">
+      <h2>Webhooks</h2>
+    </div>
+    <p>Webhooks push real-time event notifications to your server via HTTP POST. Configure endpoints in your <a href="#">Dashboard</a> or via the API. All webhook payloads include a <code>VP-Signature</code> header for verification.</p>
+
+    <h3>Signature Verification</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs"><span class="code-tab active">Node.js</span></div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre><span class="hl-keyword">const</span> crypto = <span class="hl-keyword">require</span>(<span class="hl-string">'crypto'</span>);
+
+<span class="hl-keyword">function</span> <span class="hl-method">verifyWebhook</span>(payload, signature, secret) {
+  <span class="hl-keyword">const</span> [timestamp, hash] = signature.split(<span class="hl-string">','</span>);
+  <span class="hl-keyword">const</span> expected = crypto
+    .createHmac(<span class="hl-string">'sha256'</span>, secret)
+    .update(<span class="hl-string">`${timestamp}.${payload}`</span>)
+    .digest(<span class="hl-string">'hex'</span>);
+
+  <span class="hl-keyword">if</span> (!crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(expected))) {
+    <span class="hl-keyword">throw new</span> Error(<span class="hl-string">'Invalid webhook signature'</span>);
+  }
+
+  <span class="hl-comment">// Reject timestamps older than 5 minutes to prevent replay attacks</span>
+  <span class="hl-keyword">const</span> age = Date.now() / <span class="hl-number">1000</span> - parseInt(timestamp);
+  <span class="hl-keyword">if</span> (age > <span class="hl-number">300</span>) <span class="hl-keyword">throw new</span> Error(<span class="hl-string">'Webhook too old'</span>);
+
+  <span class="hl-keyword">return</span> JSON.parse(payload);
+}</pre>
+    </div>
+
+    <div class="callout success">
+      <span class="callout-icon">✓</span>
+      <p>Always verify webhook signatures before processing events. Respond with <code>200 OK</code> within 15 seconds or we'll retry with exponential backoff (up to 8 attempts over 48 hours).</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ WEBHOOK EVENTS ═══════════ -->
+  <section class="doc-section" id="webhook-events">
+    <div class="section-header">
+      <h2>Event Types</h2>
+    </div>
+    <p>Subscribe to the events you need. Each event includes the full resource object in its <code>data</code> field.</p>
+
+    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 16px;">
+      <div class="webhook-event">
+        <span class="webhook-event-name">payment.created</span>
+        <span class="webhook-event-desc">A new payment has been initiated</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">payment.succeeded</span>
+        <span class="webhook-event-desc">Payment was successfully captured</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">payment.failed</span>
+        <span class="webhook-event-desc">Payment attempt was declined or errored</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">payment.canceled</span>
+        <span class="webhook-event-desc">An uncaptured payment was canceled</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">refund.created</span>
+        <span class="webhook-event-desc">A refund has been initiated</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">refund.succeeded</span>
+        <span class="webhook-event-desc">Refund was processed successfully</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">refund.failed</span>
+        <span class="webhook-event-desc">Refund could not be processed</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">customer.created</span>
+        <span class="webhook-event-desc">A new customer record was created</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">customer.updated</span>
+        <span class="webhook-event-desc">Customer details were modified</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">customer.deleted</span>
+        <span class="webhook-event-desc">A customer was permanently removed</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">payout.created</span>
+        <span class="webhook-event-desc">A payout was initiated (beta)</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">payout.completed</span>
+        <span class="webhook-event-desc">Payout funds were deposited (beta)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ IDEMPOTENCY ═══════════ -->
+  <section class="doc-section" id="idempotency">
+    <div class="section-header">
+      <h2>Idempotency</h2>
+    </div>
+    <p>Idempotency prevents duplicate operations when requests are retried. Include an <code>Idempotency-Key</code> header with a unique value (UUIDs work well) on any <code>POST</code> request. If VaultPay receives a request with an already-used key, it returns the original response without re-processing.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs"><span class="code-tab active">Example</span></div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre><span class="hl-method">curl</span> <span class="hl-keyword">-X POST</span> <span class="hl-url">https://api.vaultpay.com/v2/payments</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Authorization: Bearer sk_live_..."</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Idempotency-Key: a1b2c3d4-e5f6-7890-abcd-ef1234567890"</span> \
+  <span class="hl-keyword">-d</span> <span class="hl-string">'{"amount": 5000, "currency": "usd", ...}'</span></pre>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <p>Keys expire after 24 hours. Using the same key with different request parameters returns a <code>409 Conflict</code> error. <code>GET</code> and <code>DELETE</code> requests are inherently idempotent and don't require keys.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ PAGINATION ═══════════ -->
+  <section class="doc-section" id="pagination">
+    <div class="section-header">
+      <h2>Pagination</h2>
+    </div>
+    <p>All list endpoints use cursor-based pagination for consistent results, even when new records are added between requests. The response includes a <code>has_more</code> boolean and a <code>next_cursor</code> string to pass as the <code>cursor</code> query parameter on the next request.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs"><span class="code-tab active">Pattern</span></div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre><span class="hl-comment">// First page</span>
+<span class="hl-method">GET</span> <span class="hl-url">/v2/payments?limit=20</span>
+
+<span class="hl-comment">// Next page (use next_cursor from previous response)</span>
+<span class="hl-method">GET</span> <span class="hl-url">/v2/payments?limit=20&cursor=cur_xK9mRt3vN2qL</span>
+
+<span class="hl-comment">// Continue until has_more is false</span></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════ CHANGELOG ═══════════ -->
+  <section class="doc-section" id="changelog">
+    <div class="section-header">
+      <h2>Changelog</h2>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-02-20</div>
+      <div>
+        <span class="changelog-tag added">Added</span>
+        <div class="changelog-title">Payouts API (Beta)</div>
+        <div class="changelog-desc">New endpoints for initiating payouts to connected bank accounts. Supports standard and instant payout methods.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-02-14</div>
+      <div>
+        <span class="changelog-tag added">Added</span>
+        <div class="changelog-title">Customer API — Create, Update, Delete</div>
+        <div class="changelog-desc">Full CRUD operations for managing customer records. Store payment methods and track cross-session history.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-01-28</div>
+      <div>
+        <span class="changelog-tag changed">Changed</span>
+        <div class="changelog-title">Cursor-based pagination for all list endpoints</div>
+        <div class="changelog-desc">Replaced offset-based pagination with cursor-based for better performance and consistency. The <code>page</code> parameter is now deprecated.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-01-15</div>
+      <div>
+        <span class="changelog-tag fixed">Fixed</span>
+        <div class="changelog-title">Webhook retry timing improvements</div>
+        <div class="changelog-desc">Adjusted exponential backoff intervals to reduce unnecessary retries. Max retry window extended from 24 to 48 hours.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-01-02</div>
+      <div>
+        <span class="changelog-tag deprecated">Deprecated</span>
+        <div class="changelog-title">Legacy /v1 endpoints</div>
+        <div class="changelog-desc">All /v1 endpoints are officially deprecated. They will continue to function until June 30, 2025. Please migrate to /v2.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="doc-footer">
+    <span class="doc-footer-text">© 2025 VaultPay, Inc. All rights reserved.</span>
+    <div class="doc-footer-links">
+      <a href="#">Status</a>
+      <a href="#">Support</a>
+      <a href="#">GitHub</a>
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+    </div>
+  </footer>
+
+</div>
+</main>
+
+<script>
+  function toggleEndpoint(header) {
+    const card = header.closest('.endpoint-card');
+    card.classList.toggle('open');
+  }
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update active nav
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+  }
+
+  function toggleEnv() {
+    const badge = document.getElementById('envToggle');
+    if (badge.classList.contains('live')) {
+      badge.classList.remove('live');
+      badge.classList.add('sandbox');
+      badge.textContent = '○ Sandbox';
+    } else {
+      badge.classList.remove('sandbox');
+      badge.classList.add('live');
+      badge.textContent = '● Live';
+    }
+  }
+
+  function copyText(text) {
+    navigator.clipboard?.writeText(text);
+  }
+
+  // Intersection observer for active nav state
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.toggle('active', link.getAttribute('onclick')?.includes(id));
+        });
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+
+  document.querySelectorAll('.doc-section').forEach(section => {
+    if (section.id) observer.observe(section);
+  });
+</script>
+</body>
+</html>
