@@ -934,6 +934,8 @@
     <a class="nav-link" onclick="scrollToSection('sdks')">SDKs &amp; Libraries</a>
     <a class="nav-link" onclick="scrollToSection('errors')">Error Handling</a>
     <a class="nav-link" onclick="scrollToSection('rate-limits')">Rate Limits</a>
+    <a class="nav-link" onclick="scrollToSection('compliance')">Compliance &amp; Security</a>
+    <a class="nav-link" onclick="scrollToSection('test-data')">Test Data</a>
   </div>
 
   <div class="nav-section">
@@ -984,6 +986,42 @@
     <a class="nav-link" onclick="scrollToSection('ep-create-payout')">
       <span class="nav-method post">POST</span> Create Payout
       <span class="nav-badge beta">BETA</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Disputes</div>
+    <a class="nav-link" onclick="scrollToSection('ep-list-disputes')">
+      <span class="nav-method get">GET</span> List Disputes
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-get-dispute')">
+      <span class="nav-method get">GET</span> Retrieve Dispute
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-submit-evidence')">
+      <span class="nav-method post">POST</span> Submit Evidence
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Risk &amp; Fraud</div>
+    <a class="nav-link" onclick="scrollToSection('risk-scoring')">Risk Scoring</a>
+    <a class="nav-link" onclick="scrollToSection('sca')">3D Secure / SCA</a>
+    <a class="nav-link" onclick="scrollToSection('ep-assess-risk')">
+      <span class="nav-method get">GET</span> Assess Payment Risk
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">AML &amp; Compliance</div>
+    <a class="nav-link" onclick="scrollToSection('aml-monitoring')">Transaction Monitoring</a>
+    <a class="nav-link" onclick="scrollToSection('ep-kyc-verify')">
+      <span class="nav-method post">POST</span> KYC Verification
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-sanctions')">
+      <span class="nav-method post">POST</span> Sanctions Screening
+    </a>
+    <a class="nav-link" onclick="scrollToSection('ep-aml-alerts')">
+      <span class="nav-method get">GET</span> AML Alerts
     </a>
   </div>
 
@@ -1843,6 +1881,38 @@
         <span class="webhook-event-name">payout.completed</span>
         <span class="webhook-event-desc">Payout funds were deposited (beta)</span>
       </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">dispute.created</span>
+        <span class="webhook-event-desc">A dispute (chargeback) was opened on a payment</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">dispute.updated</span>
+        <span class="webhook-event-desc">Dispute status changed (e.g. evidence submitted, under review)</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">dispute.closed</span>
+        <span class="webhook-event-desc">Dispute resolved — status is now <code>won</code>, <code>lost</code>, or <code>charge_refunded</code></span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">risk.flagged</span>
+        <span class="webhook-event-desc">Payment risk score exceeded threshold — manual review recommended</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">risk.cleared</span>
+        <span class="webhook-event-desc">Previously flagged payment reviewed and cleared</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">customer.kyc_verified</span>
+        <span class="webhook-event-desc">KYC identity verification completed successfully</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">customer.kyc_failed</span>
+        <span class="webhook-event-desc">KYC verification failed or referred to manual compliance review</span>
+      </div>
+      <div class="webhook-event">
+        <span class="webhook-event-name">aml.alert_created</span>
+        <span class="webhook-event-desc">NICE Actimize SAM generated a new AML alert for suspicious activity</span>
+      </div>
     </div>
   </section>
 
@@ -1899,6 +1969,42 @@
     </div>
 
     <div class="changelog-entry">
+      <div class="changelog-date">2025-02-27</div>
+      <div>
+        <span class="changelog-tag added">Added</span>
+        <div class="changelog-title">AML &amp; Compliance — NICE Actimize Integration</div>
+        <div class="changelog-desc">New AML transaction monitoring overview, KYC verification (<code>POST /v2/customers/{id}/kyc</code>), sanctions screening (<code>POST /v2/compliance/sanctions</code>), and AML alerts (<code>GET /v2/aml/alerts</code>) powered by NICE Actimize SAM and CDD. Added <code>aml.alert_created</code>, <code>customer.kyc_verified</code>, and <code>customer.kyc_failed</code> webhook events.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-02-27</div>
+      <div>
+        <span class="changelog-tag added">Added</span>
+        <div class="changelog-title">Risk Scoring &amp; 3D Secure / SCA</div>
+        <div class="changelog-desc">Payment responses now include a <code>risk</code> object (score, level, signals, outcome) powered by NICE Actimize IFM-AI. Added <code>GET /v2/risk/assess/{payment_id}</code> endpoint, 3DS2/SCA flow documentation with exemption table, and <code>risk.flagged</code> / <code>risk.cleared</code> webhook events.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-02-27</div>
+      <div>
+        <span class="changelog-tag added">Added</span>
+        <div class="changelog-title">Disputes API</div>
+        <div class="changelog-desc">New endpoints for listing disputes, retrieving dispute details, and submitting chargeback evidence. Added dispute lifecycle documentation and <code>dispute.created</code>, <code>dispute.updated</code>, <code>dispute.closed</code> webhook events.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
+      <div class="changelog-date">2025-02-27</div>
+      <div>
+        <span class="changelog-tag added">Added</span>
+        <div class="changelog-title">Compliance &amp; Security + Test Data sections</div>
+        <div class="changelog-desc">Documented PCI DSS Level 1, SOC 2 Type II, ISO 27001, GDPR, CCPA, BSA/AML, and PSD2 compliance status with data residency options. Added comprehensive sandbox test cards (success, decline, 3DS) and test ACH bank accounts.</div>
+      </div>
+    </div>
+
+    <div class="changelog-entry">
       <div class="changelog-date">2025-02-20</div>
       <div>
         <span class="changelog-tag added">Added</span>
@@ -1940,6 +2046,809 @@
         <span class="changelog-tag deprecated">Deprecated</span>
         <div class="changelog-title">Legacy /v1 endpoints</div>
         <div class="changelog-desc">All /v1 endpoints are officially deprecated. They will continue to function until June 30, 2025. Please migrate to /v2.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ COMPLIANCE & SECURITY ═══════════ -->
+  <section class="doc-section" id="compliance">
+    <div class="section-header">
+      <h2>Compliance &amp; Security</h2>
+    </div>
+    <p>VaultPay is built on a security-first foundation. Our infrastructure, processes, and APIs comply with the most stringent global standards for financial data protection, payment security, and regulatory compliance.</p>
+
+    <h3>Certifications &amp; Standards</h3>
+    <table class="param-table">
+      <thead><tr><th>Standard</th><th>Scope</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">PCI DSS Level 1</span></td>
+          <td class="param-desc">All card data transmission, storage, and processing</td>
+          <td><span class="param-required yes">Certified</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">SOC 2 Type II</span></td>
+          <td class="param-desc">Security, availability, and confidentiality controls — audited annually</td>
+          <td><span class="param-required yes">Audited</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">ISO 27001</span></td>
+          <td class="param-desc">Information security management system</td>
+          <td><span class="param-required yes">Certified</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">GDPR</span></td>
+          <td class="param-desc">Personal data processing for EU/EEA residents</td>
+          <td><span class="param-required yes">Compliant</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">CCPA</span></td>
+          <td class="param-desc">Personal data of California residents</td>
+          <td><span class="param-required yes">Compliant</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">BSA / AML</span></td>
+          <td class="param-desc">Bank Secrecy Act and Anti-Money Laundering obligations (FinCEN)</td>
+          <td><span class="param-required yes">Compliant</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">PSD2 / SCA</span></td>
+          <td class="param-desc">EU Strong Customer Authentication for online card payments</td>
+          <td><span class="param-required yes">Compliant</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Data Residency</h3>
+    <p>VaultPay processes and stores data in the following regions. Specify your preferred region using the <code>VP-Data-Region</code> request header.</p>
+    <table class="param-table">
+      <thead><tr><th>Region</th><th>Code</th><th>Data Centre</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">United States</span></td>
+          <td><span class="param-type">us-east-1</span></td>
+          <td class="param-desc">AWS US East (N. Virginia) — default</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">European Union</span></td>
+          <td><span class="param-type">eu-west-1</span></td>
+          <td class="param-desc">AWS EU (Ireland) — required for EU data residency compliance</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">Asia Pacific</span></td>
+          <td><span class="param-type">ap-southeast-1</span></td>
+          <td class="param-desc">AWS AP (Singapore)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Encryption</h3>
+    <p>All data in transit is encrypted using TLS 1.2 or higher. Cardholder data at rest is encrypted with AES-256. VaultPay never stores raw card numbers — all payment methods are tokenised on receipt using HSM-backed key management, reducing your PCI DSS scope to the minimum.</p>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <p>VaultPay is a PCI DSS Level 1 Service Provider. By routing card data through VaultPay, sensitive cardholder data never touches your servers, significantly reducing your compliance scope and audit burden.</p>
+    </div>
+
+    <h3>Responsible Disclosure</h3>
+    <p>To report security vulnerabilities, contact <code>security@vaultpay.com</code>. VaultPay operates a coordinated disclosure programme and commits to acknowledging reports within 24 hours.</p>
+  </section>
+
+  <!-- ═══════════ TEST DATA ═══════════ -->
+  <section class="doc-section" id="test-data">
+    <div class="section-header">
+      <h2>Test Data</h2>
+    </div>
+    <p>Use the following test cards and bank accounts in sandbox mode (<code>sk_test_...</code> keys). Test transactions are never processed on real networks and incur no charges.</p>
+
+    <h3>Test Cards — Successful</h3>
+    <table class="param-table">
+      <thead><tr><th>Card Number</th><th>Brand</th><th>Scenario</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">4242 4242 4242 4242</span></td>
+          <td><span class="param-type">Visa</span></td>
+          <td class="param-desc">Always succeeds</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">5555 5555 5555 4444</span></td>
+          <td><span class="param-type">Mastercard</span></td>
+          <td class="param-desc">Always succeeds</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">3782 822463 10005</span></td>
+          <td><span class="param-type">Amex</span></td>
+          <td class="param-desc">Always succeeds</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">6011 1111 1111 1117</span></td>
+          <td><span class="param-type">Discover</span></td>
+          <td class="param-desc">Always succeeds</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Test Cards — Declines &amp; Errors</h3>
+    <table class="param-table">
+      <thead><tr><th>Card Number</th><th>Error Code</th><th>Scenario</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">4000 0000 0000 0002</span></td>
+          <td><span class="param-type">card_declined</span></td>
+          <td class="param-desc">Generic decline</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">4000 0000 0000 9995</span></td>
+          <td><span class="param-type">insufficient_funds</span></td>
+          <td class="param-desc">Insufficient funds</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">4000 0000 0000 0069</span></td>
+          <td><span class="param-type">expired_card</span></td>
+          <td class="param-desc">Card expired</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">4000 0000 0000 0127</span></td>
+          <td><span class="param-type">incorrect_cvc</span></td>
+          <td class="param-desc">CVC check fails</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">4100 0000 0000 0019</span></td>
+          <td><span class="param-type">fraudulent</span></td>
+          <td class="param-desc">Flagged as fraudulent — triggers <code>risk.flagged</code> webhook</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Test Cards — 3D Secure</h3>
+    <table class="param-table">
+      <thead><tr><th>Card Number</th><th>3DS Outcome</th><th>Scenario</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">4000 0027 6000 3184</span></td>
+          <td><span class="param-type">3DS Required</span></td>
+          <td class="param-desc">Requires authentication — use to test the full SCA redirect flow</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">4000 0025 0000 3155</span></td>
+          <td><span class="param-type">3DS Optional</span></td>
+          <td class="param-desc">Supports but does not require authentication</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">4000 0000 0000 3220</span></td>
+          <td><span class="param-type">3DS Failed</span></td>
+          <td class="param-desc">Authentication fails — payment is declined</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <p>Use any future expiry date, any 3-digit CVC, and any billing postal code with test cards. Test mode keys (<code>sk_test_...</code>) are required — sandbox requests are rejected when using live keys.</p>
+    </div>
+
+    <h3>Test Bank Accounts (ACH)</h3>
+    <table class="param-table">
+      <thead><tr><th>Account Number</th><th>Routing Number</th><th>Scenario</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">000123456789</span></td>
+          <td><span class="param-type">110000000</span></td>
+          <td class="param-desc">Always succeeds</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">000111111116</span></td>
+          <td><span class="param-type">110000000</span></td>
+          <td class="param-desc">Account closed — returns <code>account_closed</code></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">000222222227</span></td>
+          <td><span class="param-type">110000000</span></td>
+          <td class="param-desc">Insufficient funds — returns <code>insufficient_funds</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════════ DISPUTES ═══════════ -->
+  <section class="doc-section" id="ep-list-disputes">
+    <div class="section-header">
+      <h2>Disputes</h2>
+    </div>
+    <p>A dispute (chargeback) occurs when a cardholder questions a charge with their card issuer. VaultPay notifies you immediately via the <code>dispute.created</code> webhook and provides an API to retrieve disputes and submit evidence. Winning a dispute requires submitting compelling evidence before the <code>respond_by</code> deadline.</p>
+
+    <h3>Dispute Lifecycle</h3>
+    <div class="status-list">
+      <div class="status-item"><span class="status-code s4xx">warning_needs_response</span><span class="status-desc">Pre-dispute inquiry — respond before it escalates to a formal chargeback</span></div>
+      <div class="status-item"><span class="status-code s4xx">needs_response</span><span class="status-desc">Evidence submission window open — you must respond before <code>respond_by</code></span></div>
+      <div class="status-item"><span class="status-code s2xx">under_review</span><span class="status-desc">Card issuer is reviewing submitted evidence</span></div>
+      <div class="status-item"><span class="status-code s2xx">charge_refunded</span><span class="status-desc">Dispute withdrawn by cardholder — no further action needed</span></div>
+      <div class="status-item"><span class="status-code s2xx">won</span><span class="status-desc">Dispute resolved in your favour — funds returned to your account</span></div>
+      <div class="status-item"><span class="status-code s5xx">lost</span><span class="status-desc">Dispute resolved in cardholder's favour — funds permanently debited</span></div>
+    </div>
+
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/disputes</span>
+        <span class="endpoint-desc">List all disputes</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Returns a paginated list of disputes on your account, sorted by creation date (newest first).</p>
+        <h3>Query Parameters</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">status</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Filter by status: <code>needs_response</code>, <code>under_review</code>, <code>won</code>, <code>lost</code></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">payment_id</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Filter disputes linked to a specific payment ID.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">limit</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Results per page. 1–100, default 20.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">cursor</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Pagination cursor from a previous response's <code>next_cursor</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">cURL</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><span class="hl-method">curl</span> <span class="hl-url">https://api.vaultpay.com/v2/disputes?status=needs_response</span> \
+  <span class="hl-keyword">-H</span> <span class="hl-string">"Authorization: Bearer sk_live_YOUR_SECRET_KEY"</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-get-dispute">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/disputes/<span class="param">{dispute_id}</span></span>
+        <span class="endpoint-desc">Retrieve a dispute</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Retrieves the full details of a dispute, including the <code>respond_by</code> deadline, dispute reason, and associated payment.</p>
+        <h3>Path Parameters</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">dispute_id</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Unique identifier of the dispute, e.g. <code>dsp_4Nq7RkLmX2vT</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"id"</span>: <span class="hl-string">"dsp_4Nq7RkLmX2vT"</span>,
+  <span class="hl-key">"object"</span>: <span class="hl-string">"dispute"</span>,
+  <span class="hl-key">"payment_id"</span>: <span class="hl-string">"pay_3Mq8R7vLkN2xT9"</span>,
+  <span class="hl-key">"amount"</span>: <span class="hl-num">2500</span>,
+  <span class="hl-key">"currency"</span>: <span class="hl-string">"usd"</span>,
+  <span class="hl-key">"reason"</span>: <span class="hl-string">"fraudulent"</span>,
+  <span class="hl-key">"status"</span>: <span class="hl-string">"needs_response"</span>,
+  <span class="hl-key">"respond_by"</span>: <span class="hl-string">"2025-03-15T23:59:59Z"</span>,
+  <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-03-01T10:22:45Z"</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-submit-evidence">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/disputes/<span class="param">{dispute_id}</span>/evidence</span>
+        <span class="endpoint-desc">Submit dispute evidence</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Submit evidence to contest a dispute before the <code>respond_by</code> deadline. Set <code>"submit": true</code> to send evidence to the card issuer immediately, or omit to save as a draft first.</p>
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">customer_communication</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Email, chat, or other communication confirming the customer agreed to the charge.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">receipt</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Transaction receipt or order confirmation.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">shipping_documentation</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Proof of delivery, tracking number, or carrier confirmation.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">service_documentation</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Evidence the service was rendered (screenshots, access logs, usage records).</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">refund_policy</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Your published refund or cancellation policy presented to the customer at checkout.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">submit</span></td>
+              <td><span class="param-type">boolean</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Set <code>true</code> to immediately submit to the card issuer. Default <code>false</code> saves as draft.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout warning">
+          <span class="callout-icon">⚠</span>
+          <p>Evidence can only be submitted once per dispute. Use <code>"submit": false</code> to save a draft and review before final submission.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ RISK SCORING ═══════════ -->
+  <section class="doc-section" id="risk-scoring">
+    <div class="section-header">
+      <h2>Risk Scoring</h2>
+    </div>
+    <p>Every payment processed through VaultPay is automatically evaluated by our real-time fraud engine, powered by machine learning and integrated with <strong>NICE Actimize IFM-AI</strong> (Intelligent Fraud Management). A <code>risk</code> object is included in all payment responses.</p>
+
+    <h3>Risk Object Fields</h3>
+    <table class="param-table">
+      <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">risk.score</span></td>
+          <td><span class="param-type">integer</span></td>
+          <td class="param-desc">Score from 0 (lowest risk) to 100 (highest risk). Scores above 75 automatically trigger a <code>risk.flagged</code> webhook event.</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">risk.level</span></td>
+          <td><span class="param-type">string</span></td>
+          <td class="param-desc"><code>low</code> (0–30) · <code>medium</code> (31–60) · <code>high</code> (61–85) · <code>critical</code> (86–100)</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">risk.signals</span></td>
+          <td><span class="param-type">array</span></td>
+          <td class="param-desc">List of risk indicator codes detected during evaluation. See table below.</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">risk.outcome</span></td>
+          <td><span class="param-type">string</span></td>
+          <td class="param-desc"><code>approved</code>, <code>review</code>, or <code>blocked</code> — determined by your configured risk rules.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Risk Signal Codes</h3>
+    <table class="param-table">
+      <thead><tr><th>Signal</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="param-name">velocity_check</span></td><td class="param-desc">Multiple transactions in a short window from the same card or customer</td></tr>
+        <tr><td><span class="param-name">ip_mismatch</span></td><td class="param-desc">IP geolocation country does not match the card-issuing country</td></tr>
+        <tr><td><span class="param-name">device_anomaly</span></td><td class="param-desc">Unrecognised device fingerprint for this customer's established profile</td></tr>
+        <tr><td><span class="param-name">card_testing</span></td><td class="param-desc">Pattern consistent with automated card testing (repeated small-value charges)</td></tr>
+        <tr><td><span class="param-name">high_risk_country</span></td><td class="param-desc">Transaction originates from a FATF grey-listed or black-listed jurisdiction</td></tr>
+        <tr><td><span class="param-name">bin_mismatch</span></td><td class="param-desc">Card BIN country differs from the provided billing address country</td></tr>
+        <tr><td><span class="param-name">unusual_amount</span></td><td class="param-desc">Transaction amount is a statistical outlier relative to this customer's payment history</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs"><span class="code-tab active">Payment Response with Risk Object</span></div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre>{
+  <span class="hl-key">"id"</span>: <span class="hl-string">"pay_3Mq8R7vLkN2xT9"</span>,
+  <span class="hl-key">"object"</span>: <span class="hl-string">"payment"</span>,
+  <span class="hl-key">"amount"</span>: <span class="hl-num">2500</span>,
+  <span class="hl-key">"status"</span>: <span class="hl-string">"succeeded"</span>,
+  <span class="hl-key">"risk"</span>: {
+    <span class="hl-key">"score"</span>: <span class="hl-num">22</span>,
+    <span class="hl-key">"level"</span>: <span class="hl-string">"low"</span>,
+    <span class="hl-key">"signals"</span>: [],
+    <span class="hl-key">"outcome"</span>: <span class="hl-string">"approved"</span>
+  }
+}</pre>
+    </div>
+  </section>
+
+  <!-- ═══════════ 3D SECURE / SCA ═══════════ -->
+  <section class="doc-section" id="sca">
+    <div class="section-header">
+      <h2>3D Secure / SCA</h2>
+    </div>
+    <p>Strong Customer Authentication (SCA) is mandated by the EU's Payment Services Directive 2 (PSD2) for online card payments. VaultPay supports 3D Secure 2 (3DS2) natively. When a card issuer requires authentication, VaultPay returns a <code>requires_action</code> status with a redirect URL the customer must complete.</p>
+
+    <h3>SCA Authentication Flow</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-tabs"><span class="code-tab active">Flow</span></div>
+        <button class="copy-btn">Copy</button>
+      </div>
+      <pre><span class="hl-comment">// Step 1: Create payment — receives requires_action if SCA needed</span>
+<span class="hl-method">POST</span> /v2/payments → <span class="hl-key">status</span>: <span class="hl-string">"requires_action"</span>
+                   <span class="hl-key">next_action.type</span>: <span class="hl-string">"redirect_to_url"</span>
+                   <span class="hl-key">next_action.redirect_url</span>: <span class="hl-string">"https://hooks.vaultpay.com/3ds/..."</span>
+
+<span class="hl-comment">// Step 2: Redirect the customer to the 3DS URL to authenticate with their bank</span>
+
+<span class="hl-comment">// Step 3: Customer completes authentication — VaultPay confirms and captures</span>
+<span class="hl-method">POST</span> /v2/payments/<span class="hl-string">{id}</span>/confirm → <span class="hl-key">status</span>: <span class="hl-string">"succeeded"</span></pre>
+    </div>
+
+    <h3>SCA Exemptions</h3>
+    <p>VaultPay automatically applies PSD2 exemptions where eligible to reduce customer friction:</p>
+    <table class="param-table">
+      <thead><tr><th>Exemption</th><th>Condition</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">Low Value</span></td>
+          <td class="param-desc">Transactions under €30. Revoked after 5 consecutive exempted transactions or €100 cumulative spend.</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">Transaction Risk Analysis (TRA)</span></td>
+          <td class="param-desc">NICE Actimize IFM-AI risk score below threshold; acquirer and issuer fraud rates must qualify under RTS Article 18.</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">Trusted Beneficiary</span></td>
+          <td class="param-desc">Customer has explicitly whitelisted this merchant with their bank.</td>
+        </tr>
+        <tr>
+          <td><span class="param-name">MIT (Merchant-Initiated)</span></td>
+          <td class="param-desc">Recurring or subscription charges following an initial authenticated customer-initiated transaction.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <p>SCA applies to payments initiated by customers in the EEA. Merchant-initiated transactions, one-leg-out transactions (non-EEA card or acquirer), and corporate card payments are exempt.</p>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-assess-risk">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/risk/assess/<span class="param">{payment_id}</span></span>
+        <span class="endpoint-desc">Assess payment risk</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Retrieves the full risk assessment for a payment, including NICE Actimize IFM-AI scoring details, individual rule evaluations, and recommended action. Use this endpoint to build manual review workflows for high-risk transactions.</p>
+        <h3>Path Parameters</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">payment_id</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Payment identifier, e.g. <code>pay_3Mq8R7vLkN2xT9</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"payment_id"</span>: <span class="hl-string">"pay_3Mq8R7vLkN2xT9"</span>,
+  <span class="hl-key">"score"</span>: <span class="hl-num">72</span>,
+  <span class="hl-key">"level"</span>: <span class="hl-string">"high"</span>,
+  <span class="hl-key">"outcome"</span>: <span class="hl-string">"review"</span>,
+  <span class="hl-key">"signals"</span>: [<span class="hl-string">"velocity_check"</span>, <span class="hl-string">"ip_mismatch"</span>],
+  <span class="hl-key">"rules_triggered"</span>: [
+    { <span class="hl-key">"rule_id"</span>: <span class="hl-string">"r_vel_001"</span>, <span class="hl-key">"name"</span>: <span class="hl-string">"High velocity — same card 5 txns/hr"</span>, <span class="hl-key">"score_contribution"</span>: <span class="hl-num">40</span> },
+    { <span class="hl-key">"rule_id"</span>: <span class="hl-string">"r_geo_003"</span>, <span class="hl-key">"name"</span>: <span class="hl-string">"IP country ≠ card country"</span>, <span class="hl-key">"score_contribution"</span>: <span class="hl-num">32</span> }
+  ],
+  <span class="hl-key">"recommended_action"</span>: <span class="hl-string">"review"</span>,
+  <span class="hl-key">"model"</span>: <span class="hl-string">"nice-actimize-ifm-v3"</span>,
+  <span class="hl-key">"evaluated_at"</span>: <span class="hl-string">"2025-02-27T14:32:11Z"</span>
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ AML & COMPLIANCE ═══════════ -->
+  <section class="doc-section" id="aml-monitoring">
+    <div class="section-header">
+      <h2>AML &amp; Transaction Monitoring</h2>
+    </div>
+    <p>VaultPay's AML framework is built on <strong>NICE Actimize SAM</strong> (Suspicious Activity Monitoring), providing real-time and batch transaction surveillance to detect money laundering, structuring, layering, and other financial crimes. All transactions are automatically screened against configurable rule sets aligned with FATF recommendations, FinCEN requirements, and EU AMLD6.</p>
+
+    <h3>Monitoring Coverage</h3>
+    <table class="param-table">
+      <thead><tr><th>Scenario</th><th>Detection Method</th><th>Regulation</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="param-name">Structuring / Smurfing</span></td>
+          <td class="param-desc">Multiple transactions just below reporting thresholds (e.g., sub-$10,000 USD)</td>
+          <td><span class="param-type">BSA / FinCEN</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">Layering</span></td>
+          <td class="param-desc">Rapid fund movement across multiple accounts to obscure origin</td>
+          <td><span class="param-type">FATF Rec. 10</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">Unusual Transaction Patterns</span></td>
+          <td class="param-desc">Deviation from established customer behaviour baseline (NICE Actimize CDD)</td>
+          <td><span class="param-type">EU AMLD6</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">High-Risk Jurisdictions</span></td>
+          <td class="param-desc">Transactions involving FATF grey-listed or black-listed countries</td>
+          <td><span class="param-type">FATF / OFAC</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">PEP Transactions</span></td>
+          <td class="param-desc">Payments linked to Politically Exposed Persons requiring enhanced due diligence</td>
+          <td><span class="param-type">FATF Rec. 12</span></td>
+        </tr>
+        <tr>
+          <td><span class="param-name">CTR Threshold Monitoring</span></td>
+          <td class="param-desc">Automatic Currency Transaction Report flagging for transactions ≥ $10,000 USD</td>
+          <td><span class="param-type">BSA 31 CFR 1010</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <p>AML alerts generated by NICE Actimize SAM are available via the <code>/v2/aml/alerts</code> endpoint and the <code>aml.alert_created</code> webhook. Alerts requiring a Suspicious Activity Report (SAR) are surfaced with <code>sar_required: true</code>.</p>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-kyc-verify">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/customers/<span class="param">{customer_id}</span>/kyc</span>
+        <span class="endpoint-desc">Submit KYC verification</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Initiates a Know Your Customer (KYC) identity verification using <strong>NICE Actimize CDD</strong> (Customer Due Diligence). KYC is required before enabling payouts and for customers flagged as PEP or high-risk. Verification typically completes within 60 seconds; a <code>customer.kyc_verified</code> or <code>customer.kyc_failed</code> webhook is dispatched on completion.</p>
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">document_type</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc"><code>passport</code>, <code>national_id</code>, <code>drivers_license</code>, or <code>residence_permit</code></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">document_front</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Base64-encoded image of the document front (JPEG or PNG, max 5 MB).</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">document_back</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Base64-encoded image of document back. Required for <code>national_id</code> and <code>drivers_license</code>.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">selfie</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Base64-encoded selfie image for biometric liveness check. Strongly recommended.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">date_of_birth</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Date of birth (<code>YYYY-MM-DD</code>) for cross-validation against the document.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"customer_id"</span>: <span class="hl-string">"cus_Rk4x7LmN2vPq"</span>,
+  <span class="hl-key">"kyc_status"</span>: <span class="hl-string">"pending"</span>,
+  <span class="hl-key">"verification_id"</span>: <span class="hl-string">"kyc_9xT2mRkL4vNq"</span>,
+  <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-02-27T15:00:00Z"</span>
+}</pre>
+        </div>
+        <h3>KYC Status Values</h3>
+        <div class="status-list">
+          <div class="status-item"><span class="status-code s2xx">pending</span><span class="status-desc">Verification submitted and in progress</span></div>
+          <div class="status-item"><span class="status-code s2xx">verified</span><span class="status-desc">Identity confirmed — payouts and high-value transactions unlocked</span></div>
+          <div class="status-item"><span class="status-code s4xx">failed</span><span class="status-desc">Verification failed — document unclear, liveness check failed, or identity mismatch</span></div>
+          <div class="status-item"><span class="status-code s4xx">requires_review</span><span class="status-desc">Referred to manual compliance review via NICE Actimize Case Management</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-sanctions">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge post">POST</span>
+        <span class="endpoint-path">/v2/compliance/sanctions</span>
+        <span class="endpoint-desc">Screen against sanctions lists</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Screens an individual or entity against global sanctions, watchlists, and PEP databases via <strong>NICE Actimize Sanctions</strong>. Customer creation and payout requests are automatically screened — this endpoint is available for on-demand manual screening workflows.</p>
+
+        <h3>Screened Lists</h3>
+        <table class="param-table">
+          <thead><tr><th>List</th><th>Authority</th><th>Update Frequency</th></tr></thead>
+          <tbody>
+            <tr><td><span class="param-name">OFAC SDN</span></td><td class="param-desc">U.S. Treasury — Specially Designated Nationals &amp; Blocked Persons</td><td><span class="param-type">Real-time</span></td></tr>
+            <tr><td><span class="param-name">UN Consolidated</span></td><td class="param-desc">United Nations Security Council consolidated sanctions</td><td><span class="param-type">Daily</span></td></tr>
+            <tr><td><span class="param-name">EU AMLD6</span></td><td class="param-desc">European Union consolidated sanctions and asset-freeze list</td><td><span class="param-type">Daily</span></td></tr>
+            <tr><td><span class="param-name">HM Treasury</span></td><td class="param-desc">UK Office of Financial Sanctions Implementation (OFSI)</td><td><span class="param-type">Daily</span></td></tr>
+            <tr><td><span class="param-name">PEP Database</span></td><td class="param-desc">Global Politically Exposed Persons — 1.4M+ entries</td><td><span class="param-type">Weekly</span></td></tr>
+            <tr><td><span class="param-name">Adverse Media</span></td><td class="param-desc">Negative news screening across 80,000+ global sources</td><td><span class="param-type">Real-time</span></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Request Body</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">name</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required yes">Required</span></td>
+              <td class="param-desc">Full name of the individual or entity to screen.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">date_of_birth</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Date of birth (<code>YYYY-MM-DD</code>) to reduce false positives on common names.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">country</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">ISO 3166-1 alpha-2 country code of nationality or country of incorporation.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">entity_type</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc"><code>individual</code> (default) or <code>business</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK — Clear</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"screening_id"</span>: <span class="hl-string">"scr_7kNq3RxT2mLv"</span>,
+  <span class="hl-key">"name"</span>: <span class="hl-string">"Jane Smith"</span>,
+  <span class="hl-key">"result"</span>: <span class="hl-string">"clear"</span>,
+  <span class="hl-key">"matches"</span>: [],
+  <span class="hl-key">"lists_screened"</span>: [<span class="hl-string">"ofac_sdn"</span>, <span class="hl-string">"un_consolidated"</span>, <span class="hl-string">"eu_amld6"</span>, <span class="hl-string">"pep"</span>],
+  <span class="hl-key">"screened_at"</span>: <span class="hl-string">"2025-02-27T15:10:00Z"</span>
+}</pre>
+        </div>
+        <div class="callout danger">
+          <span class="callout-icon">⛔</span>
+          <p>A <code>"result": "match"</code> response indicates the subject appears on one or more sanctions or watchlists. Do not process payments or payouts for matched subjects and contact <code>compliance@vaultpay.com</code> immediately.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="ep-aml-alerts">
+    <div class="endpoint-card">
+      <div class="endpoint-header" onclick="toggleEndpoint(this)">
+        <span class="method-badge get">GET</span>
+        <span class="endpoint-path">/v2/aml/alerts</span>
+        <span class="endpoint-desc">List AML alerts</span>
+        <span class="endpoint-expand">▾</span>
+      </div>
+      <div class="endpoint-body">
+        <p>Returns AML alerts generated by NICE Actimize SAM for transactions on your account. Alerts are raised when transaction patterns match configured monitoring rules. Each alert includes a <code>sar_required</code> flag indicating whether a Suspicious Activity Report must be filed with FinCEN (US) or the relevant Financial Intelligence Unit.</p>
+
+        <h3>Query Parameters</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="param-name">status</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Filter by: <code>open</code>, <code>under_review</code>, <code>closed</code>, or <code>sar_filed</code></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">sar_required</span></td>
+              <td><span class="param-type">boolean</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Set <code>true</code> to return only alerts requiring SAR filing.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">customer_id</span></td>
+              <td><span class="param-type">string</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Filter alerts for a specific customer.</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">limit</span></td>
+              <td><span class="param-type">integer</span></td>
+              <td><span class="param-required no">Optional</span></td>
+              <td class="param-desc">Results per page. 1–100, default 20.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-tabs"><span class="code-tab active">200 OK</span></div>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre>{
+  <span class="hl-key">"object"</span>: <span class="hl-string">"list"</span>,
+  <span class="hl-key">"data"</span>: [
+    {
+      <span class="hl-key">"id"</span>: <span class="hl-string">"aml_2xK9RtLm4vNq"</span>,
+      <span class="hl-key">"object"</span>: <span class="hl-string">"aml_alert"</span>,
+      <span class="hl-key">"customer_id"</span>: <span class="hl-string">"cus_Rk4x7LmN2vPq"</span>,
+      <span class="hl-key">"alert_type"</span>: <span class="hl-string">"structuring"</span>,
+      <span class="hl-key">"status"</span>: <span class="hl-string">"open"</span>,
+      <span class="hl-key">"sar_required"</span>: <span class="hl-bool">true</span>,
+      <span class="hl-key">"transactions"</span>: [<span class="hl-string">"pay_aB1c2D3e4F"</span>, <span class="hl-string">"pay_gH5i6J7k8L"</span>],
+      <span class="hl-key">"rule_id"</span>: <span class="hl-string">"sam_struct_001"</span>,
+      <span class="hl-key">"rule_name"</span>: <span class="hl-string">"Multiple sub-threshold transactions within 24h"</span>,
+      <span class="hl-key">"created_at"</span>: <span class="hl-string">"2025-02-27T08:45:00Z"</span>
+    }
+  ],
+  <span class="hl-key">"has_more"</span>: <span class="hl-bool">false</span>
+}</pre>
+        </div>
       </div>
     </div>
   </section>
