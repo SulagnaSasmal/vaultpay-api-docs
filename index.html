@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VaultPay API Documentation — v2.4</title>
+<title>VaultPay API Documentation v2.4</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root,
@@ -1102,7 +1102,7 @@
     <div class="section-header">
       <h2>Authentication</h2>
     </div>
-    <p>VaultPay uses API keys to authenticate requests. Include your secret key in the <code>Authorization</code> header as a Bearer token. Keep your secret keys secure — never expose them in client-side code or public repositories.</p>
+    <p>VaultPay uses API keys to authenticate requests. Include your secret key in the <code>Authorization</code> header as a Bearer token. Keep your secret keys secure. Never expose them in client-side code or public repositories.</p>
 
     <div class="callout info">
       <span class="callout-icon">ℹ</span>
@@ -1214,7 +1214,7 @@
       </div>
       <div class="error-format-row">
         <span class="error-field">request_id</span>
-        <span class="error-value">A unique identifier for the request — include this in support tickets</span>
+        <span class="error-value">A unique identifier for the request. Include this in support tickets.</span>
       </div>
     </div>
 
@@ -1236,17 +1236,17 @@
 
     <h3>HTTP Status Codes</h3>
     <div class="status-list">
-      <div class="status-item"><span class="status-code s2xx">200</span><span class="status-desc">OK — Request succeeded</span></div>
-      <div class="status-item"><span class="status-code s2xx">201</span><span class="status-desc">Created — Resource successfully created</span></div>
-      <div class="status-item"><span class="status-code s4xx">400</span><span class="status-desc">Bad Request — Invalid parameters or malformed JSON</span></div>
-      <div class="status-item"><span class="status-code s4xx">401</span><span class="status-desc">Unauthorized — Missing or invalid API key</span></div>
-      <div class="status-item"><span class="status-code s4xx">403</span><span class="status-desc">Forbidden — Key lacks required permissions</span></div>
-      <div class="status-item"><span class="status-code s4xx">404</span><span class="status-desc">Not Found — Requested resource does not exist</span></div>
-      <div class="status-item"><span class="status-code s4xx">409</span><span class="status-desc">Conflict — Idempotency key reused with different parameters</span></div>
-      <div class="status-item"><span class="status-code s4xx">422</span><span class="status-desc">Unprocessable — Parameters valid but request cannot be completed</span></div>
-      <div class="status-item"><span class="status-code s4xx">429</span><span class="status-desc">Too Many Requests — Rate limit exceeded</span></div>
-      <div class="status-item"><span class="status-code s5xx">500</span><span class="status-desc">Server Error — Something went wrong on our end</span></div>
-      <div class="status-item"><span class="status-code s5xx">503</span><span class="status-desc">Service Unavailable — Temporary outage, retry with backoff</span></div>
+      <div class="status-item"><span class="status-code s2xx">200</span><span class="status-desc">OK: Request succeeded</span></div>
+      <div class="status-item"><span class="status-code s2xx">201</span><span class="status-desc">Created: Resource successfully created</span></div>
+      <div class="status-item"><span class="status-code s4xx">400</span><span class="status-desc">Bad Request: Invalid parameters or malformed JSON</span></div>
+      <div class="status-item"><span class="status-code s4xx">401</span><span class="status-desc">Unauthorized: Missing or invalid API key</span></div>
+      <div class="status-item"><span class="status-code s4xx">403</span><span class="status-desc">Forbidden: Key lacks required permissions</span></div>
+      <div class="status-item"><span class="status-code s4xx">404</span><span class="status-desc">Not Found: Requested resource does not exist</span></div>
+      <div class="status-item"><span class="status-code s4xx">409</span><span class="status-desc">Conflict: Idempotency key reused with different parameters</span></div>
+      <div class="status-item"><span class="status-code s4xx">422</span><span class="status-desc">Unprocessable: Parameters valid but request cannot be completed</span></div>
+      <div class="status-item"><span class="status-code s4xx">429</span><span class="status-desc">Too Many Requests: Rate limit exceeded</span></div>
+      <div class="status-item"><span class="status-code s5xx">500</span><span class="status-desc">Server Error: Something went wrong on our end</span></div>
+      <div class="status-item"><span class="status-code s5xx">503</span><span class="status-desc">Service Unavailable: Temporary outage, retry with backoff</span></div>
     </div>
   </section>
 
@@ -1588,7 +1588,7 @@
 
         <div class="callout danger">
           <span class="callout-icon">✕</span>
-          <p>This action is irreversible. Canceled payments cannot be re-authorized — you'll need to create a new payment intent.</p>
+          <p>This action is irreversible. Canceled payments cannot be re-authorized. You will need to create a new payment intent.</p>
         </div>
       </div>
     </div>
@@ -1750,7 +1750,7 @@
         <span class="endpoint-expand">▾</span>
       </div>
       <div class="endpoint-body">
-        <p>Updates an existing customer's properties. Only the fields you pass will be updated — omitted fields are left unchanged.</p>
+        <p>Updates an existing customer's properties. Only the fields you pass will be updated. Omitted fields are left unchanged.</p>
       </div>
     </div>
   </section>
@@ -1935,11 +1935,11 @@
       </div>
       <div class="webhook-event">
         <span class="webhook-event-name">dispute.closed</span>
-        <span class="webhook-event-desc">Dispute resolved — status is now <code>won</code>, <code>lost</code>, or <code>charge_refunded</code></span>
+        <span class="webhook-event-desc">Dispute resolved: status is now <code>won</code>, <code>lost</code>, or <code>charge_refunded</code></span>
       </div>
       <div class="webhook-event">
         <span class="webhook-event-name">risk.flagged</span>
-        <span class="webhook-event-desc">Payment risk score exceeded threshold — manual review recommended</span>
+        <span class="webhook-event-desc">Payment risk score exceeded threshold; manual review recommended</span>
       </div>
       <div class="webhook-event">
         <span class="webhook-event-name">risk.cleared</span>
@@ -2016,7 +2016,7 @@
       <div class="changelog-date">2025-02-27</div>
       <div>
         <span class="changelog-tag added">Added</span>
-        <div class="changelog-title">AML &amp; Compliance — NICE Actimize Integration</div>
+        <div class="changelog-title">AML and Compliance: NICE Actimize Integration</div>
         <div class="changelog-desc">New AML transaction monitoring overview, KYC verification (<code>POST /v2/customers/{id}/kyc</code>), sanctions screening (<code>POST /v2/compliance/sanctions</code>), and AML alerts (<code>GET /v2/aml/alerts</code>) powered by NICE Actimize SAM and CDD. Added <code>aml.alert_created</code>, <code>customer.kyc_verified</code>, and <code>customer.kyc_failed</code> webhook events.</div>
       </div>
     </div>
@@ -2061,7 +2061,7 @@
       <div class="changelog-date">2025-02-14</div>
       <div>
         <span class="changelog-tag added">Added</span>
-        <div class="changelog-title">Customer API — Create, Update, Delete</div>
+        <div class="changelog-title">Customer API: Create, Update, Delete</div>
         <div class="changelog-desc">Full CRUD operations for managing customer records. Store payment methods and track cross-session history.</div>
       </div>
     </div>
@@ -2112,7 +2112,7 @@
         </tr>
         <tr>
           <td><span class="param-name">SOC 2 Type II</span></td>
-          <td class="param-desc">Security, availability, and confidentiality controls — audited annually</td>
+          <td class="param-desc">Security, availability, and confidentiality controls; audited annually</td>
           <td><span class="param-required yes">Audited</span></td>
         </tr>
         <tr>
@@ -2151,12 +2151,12 @@
         <tr>
           <td><span class="param-name">United States</span></td>
           <td><span class="param-type">us-east-1</span></td>
-          <td class="param-desc">AWS US East (N. Virginia) — default</td>
+          <td class="param-desc">AWS US East (N. Virginia), default</td>
         </tr>
         <tr>
           <td><span class="param-name">European Union</span></td>
           <td><span class="param-type">eu-west-1</span></td>
-          <td class="param-desc">AWS EU (Ireland) — required for EU data residency compliance</td>
+          <td class="param-desc">AWS EU (Ireland); required for EU data residency compliance</td>
         </tr>
         <tr>
           <td><span class="param-name">Asia Pacific</span></td>
@@ -2167,7 +2167,7 @@
     </table>
 
     <h3>Encryption</h3>
-    <p>All data in transit is encrypted using TLS 1.2 or higher. Cardholder data at rest is encrypted with AES-256. VaultPay never stores raw card numbers — all payment methods are tokenised on receipt using HSM-backed key management, reducing your PCI DSS scope to the minimum.</p>
+    <p>All data in transit is encrypted using TLS 1.2 or higher. Cardholder data at rest is encrypted with AES-256. VaultPay never stores raw card numbers. All payment methods are tokenized on receipt using HSM-backed key management, reducing your PCI DSS scope to the minimum.</p>
 
     <div class="callout info">
       <span class="callout-icon">ℹ</span>
@@ -2185,7 +2185,7 @@
     </div>
     <p>Use the following test cards and bank accounts in sandbox mode (<code>sk_test_...</code> keys). Test transactions are never processed on real networks and incur no charges.</p>
 
-    <h3>Test Cards — Successful</h3>
+    <h3>Test Cards: Successful</h3>
     <table class="param-table">
       <thead><tr><th>Card Number</th><th>Brand</th><th>Scenario</th></tr></thead>
       <tbody>
@@ -2212,7 +2212,7 @@
       </tbody>
     </table>
 
-    <h3>Test Cards — Declines &amp; Errors</h3>
+    <h3>Test Cards: Declines and Errors</h3>
     <table class="param-table">
       <thead><tr><th>Card Number</th><th>Error Code</th><th>Scenario</th></tr></thead>
       <tbody>
@@ -2239,19 +2239,19 @@
         <tr>
           <td><span class="param-name">4100 0000 0000 0019</span></td>
           <td><span class="param-type">fraudulent</span></td>
-          <td class="param-desc">Flagged as fraudulent — triggers <code>risk.flagged</code> webhook</td>
+          <td class="param-desc">Flagged as fraudulent; triggers <code>risk.flagged</code> webhook</td>
         </tr>
       </tbody>
     </table>
 
-    <h3>Test Cards — 3D Secure</h3>
+    <h3>Test Cards: 3D Secure</h3>
     <table class="param-table">
       <thead><tr><th>Card Number</th><th>3DS Outcome</th><th>Scenario</th></tr></thead>
       <tbody>
         <tr>
           <td><span class="param-name">4000 0027 6000 3184</span></td>
           <td><span class="param-type">3DS Required</span></td>
-          <td class="param-desc">Requires authentication — use to test the full SCA redirect flow</td>
+          <td class="param-desc">Requires authentication; use to test the full SCA redirect flow</td>
         </tr>
         <tr>
           <td><span class="param-name">4000 0025 0000 3155</span></td>
@@ -2261,14 +2261,14 @@
         <tr>
           <td><span class="param-name">4000 0000 0000 3220</span></td>
           <td><span class="param-type">3DS Failed</span></td>
-          <td class="param-desc">Authentication fails — payment is declined</td>
+          <td class="param-desc">Authentication fails; payment is declined</td>
         </tr>
       </tbody>
     </table>
 
     <div class="callout info">
       <span class="callout-icon">ℹ</span>
-      <p>Use any future expiry date, any 3-digit CVC, and any billing postal code with test cards. Test mode keys (<code>sk_test_...</code>) are required — sandbox requests are rejected when using live keys.</p>
+      <p>Use any future expiry date, any 3-digit CVC, and any billing postal code with test cards. Test mode keys (<code>sk_test_...</code>) are required. Sandbox requests are rejected when using live keys.</p>
     </div>
 
     <h3>Test Bank Accounts (ACH)</h3>
@@ -2283,12 +2283,12 @@
         <tr>
           <td><span class="param-name">000111111116</span></td>
           <td><span class="param-type">110000000</span></td>
-          <td class="param-desc">Account closed — returns <code>account_closed</code></td>
+          <td class="param-desc">Account closed: returns <code>account_closed</code></td>
         </tr>
         <tr>
           <td><span class="param-name">000222222227</span></td>
           <td><span class="param-type">110000000</span></td>
-          <td class="param-desc">Insufficient funds — returns <code>insufficient_funds</code></td>
+          <td class="param-desc">Insufficient funds: returns <code>insufficient_funds</code></td>
         </tr>
       </tbody>
     </table>
@@ -2303,12 +2303,12 @@
 
     <h3>Dispute Lifecycle</h3>
     <div class="status-list">
-      <div class="status-item"><span class="status-code s4xx">warning_needs_response</span><span class="status-desc">Pre-dispute inquiry — respond before it escalates to a formal chargeback</span></div>
-      <div class="status-item"><span class="status-code s4xx">needs_response</span><span class="status-desc">Evidence submission window open — you must respond before <code>respond_by</code></span></div>
+      <div class="status-item"><span class="status-code s4xx">warning_needs_response</span><span class="status-desc">Pre-dispute inquiry: respond before it escalates to a formal chargeback</span></div>
+      <div class="status-item"><span class="status-code s4xx">needs_response</span><span class="status-desc">Evidence submission window open. You must respond before <code>respond_by</code>.</span></div>
       <div class="status-item"><span class="status-code s2xx">under_review</span><span class="status-desc">Card issuer is reviewing submitted evidence</span></div>
-      <div class="status-item"><span class="status-code s2xx">charge_refunded</span><span class="status-desc">Dispute withdrawn by cardholder — no further action needed</span></div>
-      <div class="status-item"><span class="status-code s2xx">won</span><span class="status-desc">Dispute resolved in your favour — funds returned to your account</span></div>
-      <div class="status-item"><span class="status-code s5xx">lost</span><span class="status-desc">Dispute resolved in cardholder's favour — funds permanently debited</span></div>
+      <div class="status-item"><span class="status-code s2xx">charge_refunded</span><span class="status-desc">Dispute withdrawn by cardholder. No further action needed.</span></div>
+      <div class="status-item"><span class="status-code s2xx">won</span><span class="status-desc">Dispute resolved in your favor. Funds returned to your account.</span></div>
+      <div class="status-item"><span class="status-code s5xx">lost</span><span class="status-desc">Dispute resolved in the cardholder's favor. Funds permanently debited.</span></div>
     </div>
 
     <div class="endpoint-card">
@@ -2494,7 +2494,7 @@
         <tr>
           <td><span class="param-name">risk.outcome</span></td>
           <td><span class="param-type">string</span></td>
-          <td class="param-desc"><code>approved</code>, <code>review</code>, or <code>blocked</code> — determined by your configured risk rules.</td>
+          <td class="param-desc"><code>approved</code>, <code>review</code>, or <code>blocked</code>: determined by your configured risk rules.</td>
         </tr>
       </tbody>
     </table>
@@ -2744,8 +2744,8 @@
         <h3>KYC Status Values</h3>
         <div class="status-list">
           <div class="status-item"><span class="status-code s2xx">pending</span><span class="status-desc">Verification submitted and in progress</span></div>
-          <div class="status-item"><span class="status-code s2xx">verified</span><span class="status-desc">Identity confirmed — payouts and high-value transactions unlocked</span></div>
-          <div class="status-item"><span class="status-code s4xx">failed</span><span class="status-desc">Verification failed — document unclear, liveness check failed, or identity mismatch</span></div>
+          <div class="status-item"><span class="status-code s2xx">verified</span><span class="status-desc">Identity confirmed: payouts and high-value transactions unlocked</span></div>
+          <div class="status-item"><span class="status-code s4xx">failed</span><span class="status-desc">Verification failed: document unclear, liveness check failed, or identity mismatch</span></div>
           <div class="status-item"><span class="status-code s4xx">requires_review</span><span class="status-desc">Referred to manual compliance review via NICE Actimize Case Management</span></div>
         </div>
       </div>
@@ -2761,17 +2761,17 @@
         <span class="endpoint-expand">▾</span>
       </div>
       <div class="endpoint-body">
-        <p>Screens an individual or entity against global sanctions, watchlists, and PEP databases via <strong>NICE Actimize Sanctions</strong>. Customer creation and payout requests are automatically screened — this endpoint is available for on-demand manual screening workflows.</p>
+        <p>Screens an individual or entity against global sanctions, watchlists, and PEP databases via <strong>NICE Actimize Sanctions</strong>. Customer creation and payout requests are automatically screened. This endpoint is available for on-demand manual screening workflows.</p>
 
         <h3>Screened Lists</h3>
         <table class="param-table">
           <thead><tr><th>List</th><th>Authority</th><th>Update Frequency</th></tr></thead>
           <tbody>
-            <tr><td><span class="param-name">OFAC SDN</span></td><td class="param-desc">U.S. Treasury — Specially Designated Nationals &amp; Blocked Persons</td><td><span class="param-type">Real-time</span></td></tr>
+            <tr><td><span class="param-name">OFAC SDN</span></td><td class="param-desc">U.S. Treasury: Specially Designated Nationals and Blocked Persons</td><td><span class="param-type">Real-time</span></td></tr>
             <tr><td><span class="param-name">UN Consolidated</span></td><td class="param-desc">United Nations Security Council consolidated sanctions</td><td><span class="param-type">Daily</span></td></tr>
             <tr><td><span class="param-name">EU AMLD6</span></td><td class="param-desc">European Union consolidated sanctions and asset-freeze list</td><td><span class="param-type">Daily</span></td></tr>
             <tr><td><span class="param-name">HM Treasury</span></td><td class="param-desc">UK Office of Financial Sanctions Implementation (OFSI)</td><td><span class="param-type">Daily</span></td></tr>
-            <tr><td><span class="param-name">PEP Database</span></td><td class="param-desc">Global Politically Exposed Persons — 1.4M+ entries</td><td><span class="param-type">Weekly</span></td></tr>
+            <tr><td><span class="param-name">PEP Database</span></td><td class="param-desc">Global Politically Exposed Persons, 1.4M+ entries</td><td><span class="param-type">Weekly</span></td></tr>
             <tr><td><span class="param-name">Adverse Media</span></td><td class="param-desc">Negative news screening across 80,000+ global sources</td><td><span class="param-type">Real-time</span></td></tr>
           </tbody>
         </table>
@@ -2808,7 +2808,7 @@
         </table>
         <div class="code-block">
           <div class="code-header">
-            <div class="code-tabs"><span class="code-tab active">200 OK — Clear</span></div>
+            <div class="code-tabs"><span class="code-tab active">200 OK: Clear</span></div>
             <button class="copy-btn">Copy</button>
           </div>
           <pre>{
@@ -2899,7 +2899,7 @@
 
   <!-- FOOTER -->
   <footer class="doc-footer">
-    <span class="doc-footer-text">© 2025 VaultPay, Inc. All rights reserved.</span>
+    <span class="doc-footer-text">© <span id="footer-yr"></span> Sulagna Sasmal. All rights reserved. Personal portfolio project for demonstration purposes only. Not affiliated with any organization.</span>
     <div class="doc-footer-links">
       <a href="#">Status</a>
       <a href="#">Support</a>
@@ -2962,5 +2962,7 @@
   });
 </script>
 <script>(function(){var btn=document.getElementById("theme-toggle");if(!btn)return;function upd(){btn.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"☀":"◐";}upd();btn.addEventListener("click",function(){var n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("vp-theme",n);upd();});})()</script>
+
+<script>var e=document.getElementById("footer-yr");if(e)e.textContent=new Date().getFullYear();</script>
 </body>
 </html>
