@@ -1,6 +1,6 @@
-# VaultPay API Documentation — v2.4
+# VaultPay API Documentation v2.4
 
-Enterprise-grade REST API reference for VaultPay — a fictional payment processing platform. Built as a portfolio demonstration of production-quality API documentation using a single self-contained HTML file.
+Enterprise-grade REST API reference for VaultPay, a fictional payment processing platform. Built as a portfolio demonstration of production-quality API documentation using a single self-contained HTML file.
 
 ## Live Demo
 
@@ -21,7 +21,7 @@ Hosted on GitHub Pages: `sulagnasasmal.github.io/vaultpay-api-docs/`
 
 ## Tech Stack
 
-- Single HTML file (inline CSS + JS — zero external dependencies)
+- Single HTML file (inline CSS + JS, zero external dependencies)
 - IBM Plex Mono, DM Sans, Fraunces (Google Fonts)
 - IntersectionObserver-based active nav highlighting
 - Sandbox / Live environment toggle
@@ -33,7 +33,7 @@ The page supports dark and light themes via a toggle button (◐ / ☀) in the h
 
 ## Status
 
-**Phase 1 — API Reference Documentation — Complete**
+**Phase 1: API Reference Documentation (Complete)**
 
 | Area | Status |
 |------|--------|
